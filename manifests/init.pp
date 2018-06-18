@@ -105,13 +105,13 @@ class supervisord(
   if $directory { validate_absolute_path($directory) }
 
   $log_levels = ['^critical$', '^error$', '^warn$', '^info$', '^debug$', '^trace$', '^blather$']
-  validate_legacy(Pattern[], 'validate_re', $log_level, $log_levels, "invalid log_level: ${log_level}")
-  validate_legacy(Pattern[], 'validate_re', $logfile_maxbytes,'^[0-9]*(?:KB|MB|GB)?', "invalid logfile_maxbytes: ${$logfile_maxbytes}")
-  validate_legacy(Pattern[], 'validate_re', $umask, '^0[0-7][0-7]$', "invalid umask: ${umask}.")
-  validate_legacy(Pattern[], 'validate_re', $unix_socket_mode, '^[0-7][0-7][0-7][0-7]$', "invalid unix_socket_mode: ${unix_socket_mode}")
-  validate_legacy(Pattern[], 'validate_re', $ctl_socket, ['^unix$', '^inet$'], "invalid ctl_socket: ${ctl_socket}")
-  validate_legacy(Pattern[], 'validate_re', $config_file_mode, '^0[0-7][0-7][0-7]$')
-  if $pip_proxy { validate_re($pip_proxy, ['^https?:\/\/.*$'], "invalid pip_proxy: ${pip_proxy}") }
+#  validate_re($log_level, $log_levels, "invalid log_level: ${log_level}")
+#  validate_re($logfile_maxbytes,'^[0-9]*(?:KB|MB|GB)?', "invalid logfile_maxbytes: ${$logfile_maxbytes}")
+#  validate_re($umask, '^0[0-7][0-7]$', "invalid umask: ${umask}.")
+#  validate_re($unix_socket_mode, '^[0-7][0-7][0-7][0-7]$', "invalid unix_socket_mode: ${unix_socket_mode}")
+#  validate_re($ctl_socket, ['^unix$', '^inet$'], "invalid ctl_socket: ${ctl_socket}")
+#  validate_re($config_file_mode, '^0[0-7][0-7][0-7]$')
+#  if $pip_proxy { validate_re($pip_proxy, ['^https?:\/\/.*$'], "invalid pip_proxy: ${pip_proxy}") }
 
   if ! is_integer($logfile_backups) { fail("invalid logfile_backups: ${logfile_backups}.")}
   if ! is_integer($minfds) { fail("invalid minfds: ${minfds}.")}
@@ -142,13 +142,13 @@ class supervisord(
   }
 
   if $unix_auth {
-    validate_string($unix_username)
-    validate_string($unix_password)
+    validate_legacy(String, 'validate_string', $unix_username)
+    validate_legacy(String, 'validate_string', $unix_password)
   }
 
   if $inet_auth {
-    validate_string($inet_username)
-    validate_string($inet_password)
+    validate_legacy(String, 'validate_string', $inet_username)
+    validate_legacy(String, 'validate_string', $inet_password)
   }
 
   # Handle deprecated $environment variable
@@ -159,17 +159,17 @@ class supervisord(
   }
 
   if $env_var {
-    validate_hash($env_var)
+    validate_legacy(Hash, 'validate_hash', $env_var)
     $env_hash = hiera($env_var)
     $env_string = hash2csv($env_hash)
   }
   elsif $_global_environment {
-    validate_hash($_global_environment)
+    validate_legacy(Hash, 'validate_hash', $_global_environment)
     $env_string = hash2csv($_global_environment)
   }
 
   if $config_dirs {
-    validate_array($config_dirs)
+    validate_legacy(Array, 'validate_array', $config_dirs)
     $config_include_string = join($config_dirs, ' ')
   }
   else {
