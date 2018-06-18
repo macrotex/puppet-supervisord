@@ -105,12 +105,12 @@ class supervisord(
   if $directory { validate_absolute_path($directory) }
 
   $log_levels = ['^critical$', '^error$', '^warn$', '^info$', '^debug$', '^trace$', '^blather$']
-  validate_re($log_level, $log_levels, "invalid log_level: ${log_level}")
-  validate_re($logfile_maxbytes,'^[0-9]*(?:KB|MB|GB)?', "invalid logfile_maxbytes: ${$logfile_maxbytes}")
-  validate_re($umask, '^0[0-7][0-7]$', "invalid umask: ${umask}.")
-  validate_re($unix_socket_mode, '^[0-7][0-7][0-7][0-7]$', "invalid unix_socket_mode: ${unix_socket_mode}")
-  validate_re($ctl_socket, ['^unix$', '^inet$'], "invalid ctl_socket: ${ctl_socket}")
-  validate_re($config_file_mode, '^0[0-7][0-7][0-7]$')
+  validate_legacy(Pattern[], 'validate_re', $log_level, $log_levels, "invalid log_level: ${log_level}")
+  validate_legacy(Pattern[], 'validate_re', $logfile_maxbytes,'^[0-9]*(?:KB|MB|GB)?', "invalid logfile_maxbytes: ${$logfile_maxbytes}")
+  validate_legacy(Pattern[], 'validate_re', $umask, '^0[0-7][0-7]$', "invalid umask: ${umask}.")
+  validate_legacy(Pattern[], 'validate_re', $unix_socket_mode, '^[0-7][0-7][0-7][0-7]$', "invalid unix_socket_mode: ${unix_socket_mode}")
+  validate_legacy(Pattern[], 'validate_re', $ctl_socket, ['^unix$', '^inet$'], "invalid ctl_socket: ${ctl_socket}")
+  validate_legacy(Pattern[], 'validate_re', $config_file_mode, '^0[0-7][0-7][0-7]$')
   if $pip_proxy { validate_re($pip_proxy, ['^https?:\/\/.*$'], "invalid pip_proxy: ${pip_proxy}") }
 
   if ! is_integer($logfile_backups) { fail("invalid logfile_backups: ${logfile_backups}.")}
