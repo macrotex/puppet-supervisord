@@ -83,15 +83,15 @@ class supervisord(
 
 ) inherits supervisord::params {
 
-  validate_bool($install_pip)
-  validate_bool($install_init)
-  validate_bool($nodaemon)
-  validate_bool($unix_socket)
-  validate_bool($unix_auth)
-  validate_bool($inet_server)
-  validate_bool($inet_auth)
-  validate_bool($strip_ansi)
-  validate_bool($nocleanup)
+  validate_legacy(Boolean, 'validate_bool', $install_pip)
+  validate_legacy(Boolean, 'validate_bool', $install_init)
+  validate_legacy(Boolean, 'validate_bool', $nodaemon)
+  validate_legacy(Boolean, 'validate_bool', $unix_socket)
+  validate_legacy(Boolean, 'validate_bool', $unix_auth)
+  validate_legacy(Boolean, 'validate_bool', $inet_server)
+  validate_legacy(Boolean, 'validate_bool', $inet_auth)
+  validate_legacy(Boolean, 'validate_bool', $strip_ansi)
+  validate_legacy(Boolean, 'validate_bool', $nocleanup)
 
   validate_hash($eventlisteners)
   validate_hash($fcgi_programs)
