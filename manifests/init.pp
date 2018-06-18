@@ -126,6 +126,8 @@ class supervisord(
   }
   elsif $inet_server {
     $use_ctl_socket = 'inet'
+  } else {
+    $use_ctl_socket = 'DO NOT USE'
   }
 
   if $use_ctl_socket == 'unix' {
